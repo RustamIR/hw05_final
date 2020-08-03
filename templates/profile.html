@@ -1,0 +1,37 @@
+
+{% extends "base.html" %}
+{% block title %}Профиль ползователя {{ post.author.name }}{% endblock %}
+{% block header %}The Last Social Media You'll Ever Need{% endblock %}
+{% block content %}
+{% if user.is_authenticated %}
+<main role='main' class='container'>
+        <class class='row'>
+                <div class='col-md-3 mb-3 mt-1'>
+                        <div class='card'>
+                                {% include 'includes/card_author.html' %}
+                        </div>
+                        {% if author.username != request.user.username %}
+                        <li class="list-group-item">
+                            {% if following %}
+                                <a class="btn btn-lg btn-light" href="{% url 'profile_unfollow' author.username %}" role="button">Отписаться</a>
+                            {% else %}
+                                <a class="btn btn-lg btn-primary" href="{% url 'profile_follow' author.username %}" role="button">Подписаться</a>
+                            {% endif %}
+                        </li>
+                        {% endif %}
+                </div>
+        </class>
+            <div class='col-md-9'>
+​
+                {% for post in page %}
+                    {% include "post_item.html" with post=post %}
+                    {% if not forloop.last %}<hr>{% endif %}
+                {% endfor %}
+                {% if page.has_other_pages %}
+                        {% include 'includes/paginator.html' with items=page paginator=paginator %}
+                {% endif %}
+            </div>
+    </div>
+</main>
+{% endif %}
+{% endblock %}

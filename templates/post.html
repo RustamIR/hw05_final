@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block title %}Пост {{ post.id }}{% endblock %}
+{% block header %}Просмотр поста{% endblock %}
+{% block content %}
+        <div class="card mb-3 mt-1 shadow-sm">
+            {% include 'includes/card_author.html' %}
+        </div>
+
+        <div class="col-md-9">
+                
+            {% include "post_item.html" with post=post %}
+            {% include 'includes/comments.html' %} 
+                {% if not forloop.last %}<hr>{% endif %}
+                {% if page.has_other_pages %}
+                        {% include 'includes/paginator.html' with items=page paginator=paginator %}
+                {% endif %}
+        </div>
+    </div>
+</main>
+{% endblock %}
