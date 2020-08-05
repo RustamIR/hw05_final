@@ -21,10 +21,6 @@ class TestUserScript(TestCase):
             email="connor.s@skynet.com"
         )
         self.client_auth_following = Client()
-        self.user_follower = User.objects.create_user(
-            username="follower", 
-            email="connor@sky.com"
-        )
         self.user_following = User.objects.create_user(
             username="following", 
             email="following@mail.ru"
@@ -96,8 +92,9 @@ class TestUserScript(TestCase):
                     "username": self.user.username, 
                     "post_id": post.id} 
                         ) 
-        ): 
-            self._check_post(url, self.group, post.text, self.user) 
+        ):
+            with self.subTest(url=url):  
+                self._check_post(url, self.group, post.text, self.user) 
 
     def test_post_edit(self):
         post = Post.objects.create(text='text', author=self.user,
@@ -129,7 +126,34 @@ class TestUserScript(TestCase):
                         ),
                 reverse('group', kwargs={'slug': new_group.slug})
         ):
-            self._check_post(url, new_group, post_text, self.user)
+            with self.subTest(url=url): 
+                self._check_post(url, new_group, post_text, self.user)
+
+class TestCashFollowImage(TestCase):
+    def setUp(self):
+        self.client = Client()
+        self.client_auth = Client()
+        self.user = User.objects.create_user(
+            username="sarah", 
+            email="connor.s@skynet.com"
+        )
+        self.client_auth_following = Client()
+        self.user_follower = User.objects.create_user(
+            username="follower", 
+            email="connor@sky.com"
+        )
+        self.user_following = User.objects.create_user(
+            username="following", 
+            email="following@mail.ru"
+        )
+        self.client_auth_following.force_login(self.user_following)
+        self.client_auth.force_login(self.user)
+        self.group = Group.objects.create(
+            title="Тестовая группа",
+            slug="testgroup",
+            description="Описание тестовой группы",
+        )
+        cache.clear()
     
     def test_cache(self):
         self.client_auth.post(reverse('new_post'),
@@ -148,7 +172,7 @@ class TestUserScript(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, text) 
 
-    def test_follow_and_unfollow(self):
+    def test_follow(self):
         author = self.user_following
         self.client_auth.get(reverse('profile_follow',
                                     kwargs={
@@ -157,8 +181,12 @@ class TestUserScript(TestCase):
                                 ),
         )
         follow = Follow.objects.all()
-        self.assertEqual(len(follow), 1)
+        follower = follow.count()
+        self.assertEqual(follower, 1)
         self.assertEqual(follow.first().author, author)
+    
+    def test_unfollow(self):
+        author = self.user_following
         self.client_auth.get(reverse('profile_unfollow',
                                     kwargs={
                                             'username': author.username
@@ -221,7 +249,8 @@ class TestUserScript(TestCase):
                 )
         ):
             response = self.client_auth.get(url)
-            self.assertContains(response, '<img')
+            with self.subTest(url=url): 
+                self.assertContains(response, '<img')
 
     def test_auth_client_add_comment(self):
         post = Post.objects.create(

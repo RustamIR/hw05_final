@@ -27,6 +27,16 @@ handler404 = "posts.views.page_not_found"  # noqa
 handler500 = "posts.views.server_error"  # noqa
 
 urlpatterns = [
+    path('about-us/', views.flatpage, {'url': '/about-us/'}, name='about'),
+    path('terms/', views.flatpage, {'url': '/terms/'}, name='terms'),
+     # поддержка адресов страниц «Об авторе»
+    path("about-author/", views.flatpage, {'url': '/about-author/'}, name='about-author'),
+    # поддержка адресов страниц «Технологии»
+    path("about-spec/", views.flatpage, {'url': '/about-spec/'}, name='about-spec'),
+    path("contacts/", views.flatpage, {'url': '/contacts/'}, name='contacts')
+]
+
+urlpatterns += [
     # flatpages
     path('about/', include('django.contrib.flatpages.urls')),
 
@@ -41,16 +51,6 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     #  обработчик для главной страницы ищем в urls.py приложения posts
     path("", include("posts.urls")),
-]
-
-urlpatterns += [
-    path('about-us/', views.flatpage, {'url': '/about-us/'}, name='about'),
-    path('terms/', views.flatpage, {'url': '/terms/'}, name='terms'),
-     # поддержка адресов страниц «Об авторе»
-    path("about-author/", views.flatpage, {'url': '/about-author/'}, name='about-author'),
-    # поддержка адресов страниц «Технологии»
-    path("about-spec/", views.flatpage, {'url': '/about-spec/'}, name='about-spec'),
-    path("contacts/", views.flatpage, {'url': '/contacts/'}, name='contacts')
 ]
 
 urlpatterns += [

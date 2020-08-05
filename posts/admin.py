@@ -20,9 +20,15 @@ class FollowAdmin(admin.ModelAdmin):
     list_display = ("pk", "author", "user")
     search_fields = ("author",)
     empty_value_display = "-пусто-"
-    
 
+
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ("pk", "author", "text")
+    search_fields = ("author",)
+    empty_value_display = "-пусто-"
+    
 
 admin.site.register(Post, PostAdmin)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(Follow, FollowAdmin)
+admin.site.register(Comment, CommentAdmin)
