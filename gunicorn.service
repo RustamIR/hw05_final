@@ -1,0 +1,25 @@
+[Unit]
+# это текстовое описание юнита, пояснение для разработчика
+Description=gunicorn daemon 
+
+# при старте операционной системы запускать процесс только после того, 
+# как операционная система загрузится и настроит подключение к сети
+After=network.target 
+
+[Service]
+# от чьего имени запускать процесс:
+# укажите имя, под которым вы подключались к серверу
+User=<rustamishteev
+
+# адрес к директории, где установлен Gunicorn
+WorkingDirectory=/Users/rustamishteev/work_area/miem/DevOps/hw05_final/templates
+/Users/rustamishteev/work_area/miem/DevOps/hw05_final 
+
+# команду, которую вы запускали руками, теперь будет запускать systemd:
+# в указанной директории будет выполнена команда bind
+# и по запросу к 127.0.0.1:8000 будет выполнен файл запуска приложения yatube.wsgi
+ExecStart=Users/rustamishteev/work_area/miem/DevOps/hw05_final/venv/bin/gunicorn --bind 127.0.0.1:8000 yatube.wsgi:application
+
+[Install]
+# группировка юнитов 
+WantedBy=multi-user.target

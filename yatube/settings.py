@@ -25,12 +25,14 @@ SECRET_KEY = '^)*i473h(e^3ac*#z%%3u%&e^@z257pplfu(hios*ktn4dw8bf'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    "localhost",
-        "127.0.0.1",
-        "[::1]",
-        "testserver",
-]
+# ALLOWED_HOSTS = [
+#     "localhost",
+#         "127.0.0.1",
+#         "[::1]",
+#         "testserver",
+# ]
+
+ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -46,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sorl.thumbnail',
+    # 'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
@@ -89,6 +91,17 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': os.getenv('DB_ENGINE'),
+#         'NAME': os.getenv('DB_NAME'),
+#         'USER': os.getenv('POSTGRES_USER'),
+#         'PASSWORD': os.getenv('POSTGRES_PASSWORD'),
+#         'HOST': os.getenv('DB_HOST'),
+#         'PORT': os.getenv('DB_PORT')
+#     }
+# } 
 
 
 # Password validation
