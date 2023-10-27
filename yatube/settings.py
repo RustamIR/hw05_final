@@ -26,10 +26,12 @@ SECRET_KEY = '^)*i473h(e^3ac*#z%%3u%&e^@z257pplfu(hios*ktn4dw8bf'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "localhost",
+    "0.0.0.0.",
         "127.0.0.1",
-        "[::1]",
-        "testserver",
+        "localhost",
+        "192.168.66.2"
+        # "[::1]",
+        # "testserver",
 ]
 
 
@@ -46,7 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sorl.thumbnail',
+    # 'sorl.thumbnail',
 ]
 
 MIDDLEWARE = [
